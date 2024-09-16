@@ -1,21 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Backoffice</title>
     <style>
-        header {
-            background-color: #35424a;
-            color: white;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
             text-align: center;
-            padding: 1rem;
+            color: #333;
+        }
+        input, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #dashboard {
+            display: none;
+        }
+        #userList {
+            list-style-type: none;
+            padding: 0;
+        }
+        #userList li {
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Probando</h1>
-    </header>
+    <div class="container">
+        <div id="loginForm">
+            <h1>Iniciar Sesión</h1>
+            <input type="text" id="username" placeholder="Nombre de usuario">
+            <input type="password" id="password" placeholder="Contraseña">
+            <button onclick="login()">Iniciar Sesión</button>
+        </div>
+        <div id="dashboard">
+            <h1>Panel de Control</h1>
+            <button onclick="logout()">Cerrar Sesión</button>
+            <h2>Usuarios</h2>
+            <ul id="userList"></ul>
+            <input type="text" id="newUser" placeholder="Nuevo usuario">
+            <button onclick="addUser()">Agregar Usuario</button>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo
+        let users = ['Usuario1', 'Usuario2', 'Usuario3'];
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Autenticación simple (en un caso real, esto se haría en el servidor)
+            if (username === 'admin' && password === 'password') {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                displayUsers();
+            } else {
+                alert('Credenciales incorrectas');
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function displayUsers() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user;
+                userList.appendChild(li);
+            });
+        }
+
+        function addUser() {
+            const newUser = document.getElementById('newUser').value;
+            if (newUser) {
+                users.push(newUser);
+                displayUsers();
+                document.getElementById('newUser').value = '';
+            }
+        }
+    </script>
 </body>
 </html>
